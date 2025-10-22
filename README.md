@@ -24,6 +24,22 @@ redis-cli.exe -h 127.0.0.1 -p 6379
 
 若依PG版gitlee地址：https://gitee.com/suxia2/nacos-postgresql-2.5.0
 
+数据库文件地址：sql/nacos-postgresql-schema-20251021.sql
+
+关键配置
+
+```
+# nacos-server-postgresql-2.5.0/nacos/conf/application.properties
+
+spring.datasource.platform=postgresql
+db.url.0=jdbc:postgresql://127.0.0.1:5432/nacos-gms?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.user.0=postgres
+db.password.0=密码
+db.pool.config.driverClassName=org.postgresql.Driver
+```
+
+
+
 单机启动命令
 
 ```
@@ -31,9 +47,6 @@ startup.cmd -m standalone
 ```
 
 
-
-1. 存在问题：发布了配置以后历史记录中没有对应的
-2. 表结构已经搞清楚了，现在的问题是his_config_info表中id字段没有自增，没有默认值，但nacos程序中没有正确传入id字段导致编辑后保存操作报错，准备重新编译一版2.5.0的nacos进行测试，必要时修改一下对应的his_config_info的接口代码
 
 ## 三、关于若依系统
 
@@ -80,7 +93,7 @@ startup.cmd -m standalone
                   <artifactId>ruoyi-common-swagger</artifactId>
               </dependency>
       ```
-
+    
       2. 重启服务。（未验证，最好是整个重启一遍）
 
 ## 四待解决问题
