@@ -1,0 +1,62 @@
+# Tomcat
+server:
+  port: 3100
+
+# Spring
+spring:
+  main:
+    allow-bean-definition-overriding: true # 解决AuthorizationServerConfig ClientDetailsService自动注入失败的问题
+  application:
+    # 应用名称
+    name: map-server
+  # 数据库配置
+  datasource:
+    url: jdbc:sqlite:db/main.db # 改为数据库路径
+    driver-class-name: org.sqlite.JDBC
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 配置文件格式
+        file-extension: yml
+
+# Mybatis配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印SQL语句
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: false
+    auto-mapping-behavior: full # 自动映射resultMap
+  mapper-locations: classpath:mapper/*.xml
+  # type-handlers-package: com.feihu1024.gms.interrupt
+
+# Swagger-ui配置
+knife4j:
+  # 启用 Knife4j 增强 UI（/doc.html）
+  enable: true
+  # 是否生产环境关闭（可选）
+  production: false
+
+springdoc:
+  # 是否启用 OpenAPI 文档生成（等价于原来的 swagger.enable）
+  api-docs:
+    enabled: true
+  # Swagger UI 路径（默认 /swagger-ui.html，Knife4j 会重定向到 /doc.html）
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  # OpenAPI 元信息（替代原来的 ApiInfo）
+  info:
+    title: 地图服务 API
+    version: 1.0.0
+    description: 提供地图瓦片与标注服务
+    contact:
+      name: feihu1024

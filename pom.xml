@@ -270,7 +270,6 @@
         <module>ruoyi-modules</module>
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
-        <module>ruoyi-modules/tile-server</module>
     </modules>
     <packaging>pom</packaging>
 
