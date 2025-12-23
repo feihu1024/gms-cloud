@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         // 构建登录操作
         Operation loginOperation = new Operation()
-                .summary("登录")
+                .summary("登录(暂未实现功能)")
                 .description("用户登陆获取 token")
                 .addTagsItem("权限管理服务")
                 .addParametersItem(new QueryParameter().name("client_id").description("客户端id").required(true).schema(new StringSchema()))

@@ -47,3 +47,4 @@ nbdist/
 
 logs/
 thirdpart/
+ruoyi-modules/map-server/db

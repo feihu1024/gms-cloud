@@ -4,6 +4,16 @@ server:
 
 # Spring
 spring:
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
   main:
     allow-bean-definition-overriding: true # 解决AuthorizationServerConfig ClientDetailsService自动注入失败的问题
   application:
@@ -11,7 +21,7 @@ spring:
     name: map-server
   # 数据库配置
   datasource:
-    url: jdbc:sqlite:db/main.db # 改为数据库路径
+    url: jdbc:sqlite:${user.dir}/ruoyi-modules/map-server/db/main.db # 改为数据库路径
     driver-class-name: org.sqlite.JDBC
   profiles:
     # 环境配置

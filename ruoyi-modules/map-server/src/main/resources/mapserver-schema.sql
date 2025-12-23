@@ -5,9 +5,9 @@
 -- =============================================
 
 -- 创建瓦片服务配置表
-CREATE TABLE IF NOT EXISTS tile_service_config (
+CREATE TABLE IF NOT EXISTS map_service_config (
     -- 主键ID，自动增长
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     -- 服务名称，用于唯一标识服务
     server_name VARCHAR(100) NOT NULL UNIQUE,
     -- 服务标题，用于显示和描述
@@ -27,18 +27,16 @@ CREATE TABLE IF NOT EXISTS tile_service_config (
 -- =============================================
 
 -- 为服务名称创建索引（唯一约束已自动创建索引，但这里显式创建以明确意图）
-CREATE INDEX IF NOT EXISTS idx_tile_service_server_name ON tile_service_config(server_name);
+CREATE INDEX IF NOT EXISTS idx_map_service_server_name ON map_service_config(server_name);
 
 -- =============================================
 -- 创建触发器自动更新更新时间字段
 -- =============================================
 
 -- 创建更新时间的触发器，当记录更新时自动设置update_time为当前时间
-CREATE TRIGGER IF NOT EXISTS update_tile_service_timestamp 
-AFTER UPDATE ON tile_service_config
+CREATE TRIGGER IF NOT EXISTS update_map_service_timestamp
+AFTER UPDATE ON map_service_config
 FOR EACH ROW
 BEGIN
-    UPDATE tile_service_config 
-    SET update_time = CURRENT_TIMESTAMP 
-    WHERE id = NEW.id;
+    UPDATE map_service_config SET update_time = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
