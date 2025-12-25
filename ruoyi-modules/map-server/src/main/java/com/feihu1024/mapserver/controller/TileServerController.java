@@ -1,7 +1,9 @@
 package com.feihu1024.mapserver.controller;
 
 import com.feihu1024.mapserver.common.R;
+import com.feihu1024.mapserver.domain.TileServerCreateBody;
 import com.feihu1024.mapserver.domain.TileServerEntity;
+import com.feihu1024.mapserver.domain.TileServerUpdateBody;
 import com.feihu1024.mapserver.service.TileServerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,10 +31,24 @@ public class TileServerController {
 
     @Operation(summary = "创建一个地图服务", description = "根据指定配置创建一个瓦片服务")
     @PostMapping("createServer")
-    public R<Boolean> createServer(@RequestBody TileServerEntity tileServerEntity)
+    public R<Boolean> createServer(@RequestBody TileServerCreateBody tileServerCreateBody)
     {
         Map<String,Object> data = new HashMap<String,Object>(){};
-        boolean success = tieServerService.save(tileServerEntity);
+        boolean success = tieServerService.createServer(tileServerCreateBody);
+        return R.ok(success);
+    }
+
+    @Operation(summary = "更新地图服务的属性", description = "")
+    @PostMapping("updateServer")
+    public R<Boolean> updateTile(@RequestBody TileServerUpdateBody tileServerUpdateBody) {
+        boolean success = tieServerService.updateServer(tileServerUpdateBody);
+        return R.ok(success);
+    }
+
+    @Operation(summary = "根据id删除指定的服务", description = "")
+    @DeleteMapping("deleteServerById")
+    public R<Boolean> deleteServerById(Long id) {
+        boolean success = tieServerService.removeById(id);
         return R.ok(success);
     }
 
@@ -62,7 +78,29 @@ public class TileServerController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(mediaType);
         headers.setContentLength(data.length);
-        headers.setCacheControl("public, max-age=86400"); // 缓存 1 天
+
+        return new ResponseEntity<>(data, headers, HttpStatus.OK);
+    }
+
+    @Operation(summary = "获取指定服务的瓦片数据for_afsim", description = "")
+    @GetMapping("/tiles_for_afsim/{serverName}/{z}/{x}/{y}")
+    public ResponseEntity<byte[]> getTileForAfsim(@PathVariable String serverName,@PathVariable int z,@PathVariable int x,@PathVariable int y) {
+
+        // 安全校验（防止路径遍历）
+        if (!serverName.matches("[a-zA-Z0-9_-]+")) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        byte[] data = tieServerService.getTileBytesForAfsim(serverName, z, x, y);
+
+        if (data == null || data.length == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        MediaType mediaType = detectImageType(data);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(mediaType);
+        headers.setContentLength(data.length);
 
         return new ResponseEntity<>(data, headers, HttpStatus.OK);
     }
