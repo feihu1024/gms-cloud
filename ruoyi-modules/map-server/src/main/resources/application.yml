@@ -11,8 +11,22 @@ spring:
     name: map-server
   # 数据库配置
   datasource:
-    url: jdbc:sqlite:${user.dir}/ruoyi-modules/map-server/db/main.db # 改为数据库路径
-    driver-class-name: org.sqlite.JDBC
+    dynamic:
+      primary: master # 设置默认的数据源或者数据源组,默认值即为master
+      strict: false # 严格匹配数据源,默认false.true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        base_gis:
+          driver-class-name: org.postgresql.Driver
+          url: jdbc:postgresql://localhost:5432/base_gis?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+          username: postgres
+          password: 123456
+          hikari:
+            max-pool-size: 16
+            min-idle: 5
+            connection-timeout: 10000
+        master:
+          driver-class-name: org.sqlite.JDBC
+          url: jdbc:sqlite:${user.dir}/ruoyi-modules/map-server/db/main.db # 改为数据库路径
 #  profiles:
 #    # 环境配置
 #    active: dev

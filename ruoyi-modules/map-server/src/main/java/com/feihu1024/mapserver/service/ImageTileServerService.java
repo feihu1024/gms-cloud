@@ -7,7 +7,7 @@ import com.feihu1024.mapserver.domain.TileServerUpdateBody;
 
 import java.util.List;
 
-public interface TileServerService extends IService<TileServerEntity> {
+public interface ImageTileServerService extends IService<TileServerEntity> {
     List<TileServerEntity> getAllServices();
     byte[] getTileBytes(String serverName, int z, int x, int y);
     byte[] getTileBytesForAfsim(String serverName, int z, int x, int y);

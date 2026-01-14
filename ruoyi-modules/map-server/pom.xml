@@ -20,6 +20,9 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <knife4j.version>4.4.0</knife4j.version>
         <redis.version>2.7.18</redis.version>
+        <dynamic-datasource.version>3.5.2</dynamic-datasource.version>
+        <postgresql.version>42.5.4</postgresql.version>
+
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
@@ -47,6 +50,20 @@
         <!--     <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId> -->
         <!--     <optional>true</optional> -->
         <!-- </dependency> -->
+
+        <!-- postgresql-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <!-- 多源数据支持 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic-datasource.version}</version>
+        </dependency>
 
         <!-- sqlite3驱动包 -->
         <dependency>

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.feihu1024.mapserver.domain.TileServerCreateBody;
 import com.feihu1024.mapserver.domain.TileServerEntity;
 import com.feihu1024.mapserver.domain.TileServerUpdateBody;
-import com.feihu1024.mapserver.mapper.TileServerMapper;
+import com.feihu1024.mapserver.mapper.ImageTileServerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,9 +19,9 @@ import java.sql.ResultSet;
 import java.util.List;
 
 @Service
-public class TileServerServiceImpl extends ServiceImpl<TileServerMapper, TileServerEntity> implements TileServerService {
+public class ImageTileServerServiceImpl extends ServiceImpl<ImageTileServerMapper, TileServerEntity> implements ImageTileServerService {
 
-    private static final Logger log = LoggerFactory.getLogger(TileServerService.class);
+    private static final Logger log = LoggerFactory.getLogger(ImageTileServerService.class);
 
     private static final byte[] EMPTY_TILE = new byte[0];
 

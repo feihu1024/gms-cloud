@@ -5,5 +5,5 @@ import com.feihu1024.mapserver.domain.TileServerEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface TileServerMapper extends BaseMapper<TileServerEntity> {
+public interface ImageTileServerMapper extends BaseMapper<TileServerEntity> {
 }

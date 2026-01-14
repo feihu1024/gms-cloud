@@ -4,7 +4,7 @@ import com.feihu1024.mapserver.common.R;
 import com.feihu1024.mapserver.domain.TileServerCreateBody;
 import com.feihu1024.mapserver.domain.TileServerEntity;
 import com.feihu1024.mapserver.domain.TileServerUpdateBody;
-import com.feihu1024.mapserver.service.TileServerService;
+import com.feihu1024.mapserver.service.ImageTileServerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,47 +20,47 @@ import java.util.List;
 import java.util.Map;
 
 
-@Tag(name = "瓦片服务", description = "提供地图瓦片、图层等核心功能")
+@Tag(name = "地图瓦片服务", description = "提供地图瓦片、图层等核心功能")
 
 @RestController
-@RequestMapping("/tileserver")
-public class TileServerController {
+@RequestMapping("/imageTileServer")
+public class ImageTileServerController {
 
     @Autowired
-    private TileServerService tieServerService;
+    private ImageTileServerService imageTileServerService;
 
     @Operation(summary = "创建一个地图服务", description = "根据指定配置创建一个瓦片服务")
-    @PostMapping("createServer")
+    @PostMapping("createImageServer")
     public R<Boolean> createServer(@RequestBody TileServerCreateBody tileServerCreateBody)
     {
         Map<String,Object> data = new HashMap<String,Object>(){};
-        boolean success = tieServerService.createServer(tileServerCreateBody);
+        boolean success = imageTileServerService.createServer(tileServerCreateBody);
         return R.ok(success);
     }
 
     @Operation(summary = "更新地图服务的属性", description = "")
-    @PostMapping("updateServer")
+    @PostMapping("updateImageServer")
     public R<Boolean> updateTile(@RequestBody TileServerUpdateBody tileServerUpdateBody) {
-        boolean success = tieServerService.updateServer(tileServerUpdateBody);
+        boolean success = imageTileServerService.updateServer(tileServerUpdateBody);
         return R.ok(success);
     }
 
     @Operation(summary = "根据id删除指定的服务", description = "")
-    @DeleteMapping("deleteServerById")
+    @DeleteMapping("deleteImageServerById")
     public R<Boolean> deleteServerById(Long id) {
-        boolean success = tieServerService.removeById(id);
+        boolean success = imageTileServerService.removeById(id);
         return R.ok(success);
     }
 
     @Operation(summary = "获取所有地图服务", description = "")
-    @GetMapping("/getAllServices")
+    @GetMapping("/getAllImageServices")
     public R<List<TileServerEntity>> getAllService() {
-        List<TileServerEntity> mapServerList = tieServerService.getAllServices();
+        List<TileServerEntity> mapServerList = imageTileServerService.getAllServices();
         return R.ok(mapServerList);
     }
 
     @Operation(summary = "获取指定服务的瓦片数据", description = "")
-    @GetMapping("/tiles/{serverName}/{z}/{x}/{y}")
+    @GetMapping("/imageTiles/{serverName}/{z}/{x}/{y}")
     public ResponseEntity<byte[]> getTile(@PathVariable String serverName,@PathVariable int z,@PathVariable int x,@PathVariable int y) {
 
         // 安全校验（防止路径遍历）
@@ -68,7 +68,7 @@ public class TileServerController {
             return ResponseEntity.badRequest().build();
         }
 
-        byte[] data = tieServerService.getTileBytes(serverName, z, x, y);
+        byte[] data = imageTileServerService.getTileBytes(serverName, z, x, y);
 
         if (data == null || data.length == 0) {
             return ResponseEntity.notFound().build();
@@ -83,7 +83,7 @@ public class TileServerController {
     }
 
     @Operation(summary = "获取指定服务的瓦片数据for_afsim", description = "")
-    @GetMapping("/tiles_for_afsim/{serverName}/{z}/{x}/{y}")
+    @GetMapping("/imageT_for_afsim/{serverName}/{z}/{x}/{y}")
     public ResponseEntity<byte[]> getTileForAfsim(@PathVariable String serverName,@PathVariable int z,@PathVariable int x,@PathVariable int y) {
 
         // 安全校验（防止路径遍历）
@@ -91,7 +91,7 @@ public class TileServerController {
             return ResponseEntity.badRequest().build();
         }
 
-        byte[] data = tieServerService.getTileBytesForAfsim(serverName, z, x, y);
+        byte[] data = imageTileServerService.getTileBytesForAfsim(serverName, z, x, y);
 
         if (data == null || data.length == 0) {
             return ResponseEntity.notFound().build();
